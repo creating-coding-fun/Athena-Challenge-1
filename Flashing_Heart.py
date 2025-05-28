@@ -4,6 +4,7 @@ import turtle
 screen = turtle.Screen()
 screen.bgcolor('black')
 screen.setup(500, 450)
+screen.tracer(0)
 
 pen = turtle.Turtle()
 pen.shape("turtle")
@@ -12,34 +13,55 @@ pen.speed(0)
 
 def curve():
     for i in range(200):
-        turtle.right(1)
-        turtle.forward(1)
+        pen.right(1)
+        pen.forward(1)
 
-def heart():
-    turtle.fillcolor('pink')
-    turtle.begin_fill()
-    turtle.left(140)
-    turtle.forward(114)
+def heart(color):
+    pen.fillcolor(color)
+    pen.begin_fill()
+    pen.left(140)
+    pen.forward(114)
     curve()
-    turtle.left(120)
+    pen.left(120)
     curve()
-    turtle.forward(115)
-    turtle.end_fill()
-    turtle.done()
+    pen.forward(115)
+    pen.end_fill()
+    screen.update()
 
-def flash_heart(color1, color2):
+def flash_heart(color1, color2, color3,  current_color=1):
+    if current_color == 1:
+        heart(color1)
+        current_color = 2
+
+    elif current_color == 2:
+        heart(color2)
+        current_color = 3
+
+    else:
+        heart(color3)
+        current_color = 1
+
     pen.clear()
     pen.penup()
-    pen.position()
-    pen.setheading(0)
-    heart()
-    screen.update()
-    screen.ontimer(lambda: flash_heart(color1, color2), 500)
+    pen.home()
+    pen.pendown()
+    pen.hideturtle()
+    turtle.hideturtle()
+    screen.ontimer(lambda: flash_heart(color1, color2, color3,  current_color), 350)
+
+
+screen.update()
+flash_heart("pink", "red", "magenta")
 
 
 
-flash_heart('pink', 'red')
-heart()
+screen.mainloop()
+
+
+
+
+
+
 
 
 
